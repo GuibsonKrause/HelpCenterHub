@@ -77,8 +77,3 @@ public class TicketUpdate {
         this.updatedAt = updatedAt;
     }
 }
-
-enum UpdateType {
-    STATUS_CHANGE,
-    COMMENT_ADDED
-}

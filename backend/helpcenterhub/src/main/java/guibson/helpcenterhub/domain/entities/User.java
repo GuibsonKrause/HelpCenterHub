@@ -83,8 +83,3 @@ public class User {
         this.roles.add(role);
     }
 }
-
-enum Role {
-    USER,
-    MANAGER
-}
