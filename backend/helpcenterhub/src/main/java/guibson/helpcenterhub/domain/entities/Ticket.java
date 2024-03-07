@@ -87,7 +87,3 @@ public class Ticket {
         this.closedAt = closedAt;
     }
 }
-
-enum TicketStatus {
-    OPEN, IN_PROGRESS, CLOSED
-}

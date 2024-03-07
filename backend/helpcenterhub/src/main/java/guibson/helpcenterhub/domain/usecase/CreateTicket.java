@@ -1,6 +1,7 @@
 package guibson.helpcenterhub.domain.usecase;
 
 import guibson.helpcenterhub.domain.entities.Ticket;
+import guibson.helpcenterhub.domain.entities.TicketStatus;
 import guibson.helpcenterhub.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,8 @@ public class CreateTicket {
         newTicket.setUserId(userId);
         newTicket.setSubject(subject);
         newTicket.setDescription(description);
-        newTicket.setStatus(Ticket.TicketStatus.OPEN); // Assume que existe uma enumeração para os estados do Ticket
+        newTicket.setStatus(TicketStatus.OPEN); // Corrigido para usar TicketStatus diretamente
         newTicket.setCreatedAt(LocalDateTime.now()); // Configura a data e hora de criação do ticket para agora
-        // Aqui você pode adicionar mais lógica conforme necessário, por exemplo, validações específicas
         return ticketRepository.save(newTicket); // Salva o novo ticket no banco de dados e o retorna
     }
 }
