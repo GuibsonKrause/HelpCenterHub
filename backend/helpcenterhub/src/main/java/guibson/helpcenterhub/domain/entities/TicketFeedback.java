@@ -18,9 +18,9 @@ public class TicketFeedback {
     private Long userId;
 
     @Column(nullable = false)
-    private int rating; // Considerando uma escala, por exemplo, de 1 a 5
+    private int rating;
 
-    @Column(length = 1024) // Permitindo um comentário opcional
+    @Column(length = 1024)
     private String comment;
 
     @Column(nullable = false)

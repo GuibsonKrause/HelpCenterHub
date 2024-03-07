@@ -22,8 +22,8 @@ public class CreateTicket {
         newTicket.setUserId(userId);
         newTicket.setSubject(subject);
         newTicket.setDescription(description);
-        newTicket.setStatus(TicketStatus.OPEN); // Corrigido para usar TicketStatus diretamente
-        newTicket.setCreatedAt(LocalDateTime.now()); // Configura a data e hora de criação do ticket para agora
-        return ticketRepository.save(newTicket); // Salva o novo ticket no banco de dados e o retorna
+        newTicket.setStatus(TicketStatus.OPEN);
+        newTicket.setCreatedAt(LocalDateTime.now());
+        return ticketRepository.save(newTicket);
     }
 }
