@@ -2,6 +2,8 @@ package guibson.helpcenterhub.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,16 +17,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Desabilita CSRF
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/public/**").permitAll()
-                .anyRequest().authenticated())
-            .httpBasic(httpBasic -> httpBasic.disable()); // Desabilita a autenticação HTTP Basic
+                .csrf(csrf -> csrf.disable()) // Desabilita CSRF
+                .cors(cors -> cors.disable()) // Desabilita CORS
+                .authorizeHttpRequests((requests) -> requests
+                        .anyRequest().permitAll()) // Permite todas as requisições sem autenticação
+                .httpBasic(basic -> basic.disable()); // Desabilita a autenticação HTTP Basic
+
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
