@@ -1,8 +1,21 @@
 version: "3.8"
 services:
-  db:
+  app:
+    container_name: helpcenterhub_app
+    image: helpcenterhub_app
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresqldb:5432/helpcenterhub
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+
+  postgresqldb:
     container_name: postgres_16
-    image: postgres:16
+    image: postgres
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -13,14 +26,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
+
 volumes:
-  db-data:   
+  db-data:
