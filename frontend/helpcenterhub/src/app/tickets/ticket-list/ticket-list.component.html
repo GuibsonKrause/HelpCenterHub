@@ -1,1 +1,16 @@
-<p>ticket-list works!</p>
+<div class="search-bar">
+    <input type="text" [(ngModel)]="filter" (keyup)="onFilterChange($event.target.value)" placeholder="Search by id or subject...">
+  </div>
+  
+  <div class="ticket-list">
+    <div class="ticket-card" *ngFor="let ticket of tickets">
+      <h3>{{ ticket.subject }}</h3> 
+      <p>Ticket ID: {{ ticket.id }}</p>
+      <p [ngClass]="{'open': ticket.status === 'OPEN', 'closed': ticket.status === 'CLOSED'}">Status: {{ ticket.status }}</p>
+     </div>
+  </div>
+  
+  <div *ngIf="tickets.length === 0">
+    <p>You have no open tickets.</p>
+  </div>
+  
