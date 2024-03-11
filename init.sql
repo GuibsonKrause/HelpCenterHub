@@ -33,13 +33,12 @@ CREATE TABLE ticket_feedbacks (
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
-CREATE TABLE ticket_updates (
-    id BIGSERIAL PRIMARY KEY,
-    ticket_id BIGINT NOT NULL,
-    updated_by BIGINT NOT NULL,
-    update_type VARCHAR NOT NULL,
-    description TEXT NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (ticket_id) REFERENCES tickets (id),
-    FOREIGN KEY (updated_by) REFERENCES users (id)
-);
+-- Inserir usuários
+INSERT INTO users (name, email, password) VALUES ('manager', 'manager@example.com', 'admin');
+INSERT INTO users (name, email, password) VALUES ('user1', 'user1@example.com', 'admin');
+INSERT INTO users (name, email, password) VALUES ('user2', 'user2@example.com', 'admin');
+
+-- Inserir tipos de usuários
+INSERT INTO user_roles (user_id, role) VALUES (1, 'MANAGER');
+INSERT INTO user_roles (user_id, role) VALUES (2, 'USER');
+INSERT INTO user_roles (user_id, role) VALUES (3, 'USER');
