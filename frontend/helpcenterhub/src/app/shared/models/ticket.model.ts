@@ -1,17 +1,40 @@
-export enum TicketStatus {
-    OPEN = "OPEN",
-    CLOSED = "CLOSED",
-  }
-  
-  export class Ticket {
-    constructor(
-      public id: number,
-      public userId: number,
-      public subject: string,
-      public description: string,
-      public status?: TicketStatus,
-      public createdAt?: Date,
-      public closedAt?: Date
-    ) {}
-  }
-  
+export interface Ticket {
+  id: number;
+  userId: number;
+  subject: string;
+  description: string;
+  status: string;
+  createdAt: string;
+  closedAt: string | null;
+}
+
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface TicketsResponse {
+  content: Ticket[];
+  pageable: Pageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  first: boolean;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  empty: boolean;
+}

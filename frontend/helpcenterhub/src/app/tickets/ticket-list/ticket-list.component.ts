@@ -28,7 +28,21 @@ export class TicketListComponent implements OnInit {
 
   loadTickets(userId: number, filter?: string) {
     this.ticketService.getTicketsByUserId(userId, filter)
-      .subscribe(tickets => console.log("issoaqui"+tickets));
+      .subscribe(response => {
+        if (response.content) {
+          this.tickets = response.content.map(ticketData => ({
+            id: ticketData.id,
+            userId: ticketData.userId,
+            subject: ticketData.subject,
+            description: ticketData.description,
+            status: ticketData.status,
+            createdAt: ticketData.createdAt,
+            closedAt: ticketData.closedAt
+          }));
+        } else {
+          console.error('Tickets data not found in response');
+        }
+      });
   }
 
   onFilterChange(event: Event) {
