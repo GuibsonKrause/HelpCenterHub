@@ -37,7 +37,7 @@ import { MatChipsModule } from '@angular/material/chips';
 })
 export class TicketListComponent implements OnInit {
   tickets: Ticket[] = [];
-  userId: number = 2;
+  userId: number = 1;
   filter: string = '';
 
   constructor(private route: ActivatedRoute, private ticketService: TicketService, private cd: ChangeDetectorRef) { }
