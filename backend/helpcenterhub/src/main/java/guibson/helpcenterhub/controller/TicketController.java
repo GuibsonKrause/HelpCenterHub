@@ -83,7 +83,7 @@ public class TicketController {
     // @RequestAttribute("userId") Long managerId,
     @PatchMapping("/{ticketId}/close")
     public ResponseEntity<?> closeTicket(@PathVariable Long ticketId) {
-        Long managerId = (long) 3;
+        Long managerId = (long) 1;
         if (managerId == null || ticketId == null) {
             return ResponseEntity.badRequest().build();
         }
