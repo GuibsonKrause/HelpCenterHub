@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TicketsResponse } from '../models/ticket.model';
+import { Ticket, TicketsResponse } from '../models/ticket.model';
 import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TicketService {
-  private apiUrl = `${environment.apiUrl}/tickets/user/`;
+  private apiUrl = `${environment.apiUrl}/tickets`;
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +20,10 @@ export class TicketService {
     if (filter) {
       params = params.append('filter', filter);
     }
+    return this.http.get<TicketsResponse>(`${this.apiUrl + "/user/"}${userId}`, { params });
+  }
 
-    return this.http.get<TicketsResponse>(`${this.apiUrl}${userId}`, { params });
+  createTicket(ticketDTO: { userId: number; subject: string; description: string; }): Observable<Ticket> {
+    return this.http.post<Ticket>(`${this.apiUrl}`, ticketDTO);
   }
 }

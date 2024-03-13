@@ -7,7 +7,6 @@ import { Ticket } from '../../shared/models/ticket.model';
 import { TicketService } from '../../shared/services/ticket.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from '../../header-component/header-component.component';
-// Importações do Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +14,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatPaginatorModule } from '@angular/material/paginator'; // Importação do MatPaginatorModule
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { TicketCreateComponent } from '../ticket-create/ticket-create.component';
 
 @Component({
   standalone: true,
@@ -31,7 +32,7 @@ import { MatPaginatorModule } from '@angular/material/paginator'; // Importaçã
     MatToolbarModule,
     MatIconModule,
     MatChipsModule,
-    MatPaginatorModule, // Adicione o MatPaginatorModule às importações
+    MatPaginatorModule,
   ],
   selector: 'app-ticket-list',
   templateUrl: './ticket-list.component.html',
@@ -41,24 +42,22 @@ export class TicketListComponent implements OnInit {
   tickets: Ticket[] = [];
   userId: number = 1;
   filter: string = '';
-  totalTickets = 0; // Total de tickets para paginação
-  pageSize = 12; // Tickets por página
-  currentPage = 0; // Página atual
+  totalTickets = 0;
+  pageSize = 12;
+  currentPage = 0;
 
-  constructor(private route: ActivatedRoute, private ticketService: TicketService, private cd: ChangeDetectorRef) { }
+  constructor(private route: ActivatedRoute, private ticketService: TicketService, private cd: ChangeDetectorRef, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      // Inicialize a carga de tickets com a primeira página
       this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
     });
   }
 
   loadTickets(userId: number, filter: string, page: number, size: number) {
-    // Atualize seu serviço para suportar paginação
     this.ticketService.getTicketsByUserIdAndPage(userId, filter, page, size).subscribe(response => {
       this.tickets = response.content;
-      this.totalTickets = response.totalElements; // Atualize com o total de tickets retornados pelo backend
+      this.totalTickets = response.totalElements;
       this.cd.detectChanges();
     });
   }
@@ -69,12 +68,27 @@ export class TicketListComponent implements OnInit {
     this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
   }
 
-  createNewTicket() {
-    // Implemente a lógica para criar um novo ticket
-    // Por exemplo, navegar para uma página de formulário de novo ticket
-    // this.router.navigate(['/new-ticket']);
+  openNewTicketModal(): void {
+    const dialogRef = this.dialog.open(TicketCreateComponent, {
+      width: '1000px',
+      data: { userId: this.userId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+      this.route.paramMap.subscribe(params => {
+        this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+      });
+    });
   }
-  
+
+  openTicketDetails(ticket: any): void {
+    this.dialog.open(TicketCreateComponent, {
+      width: '1000px',
+      data: ticket
+    });
+  }
+
 
   onPageChange(event: any) {
     this.currentPage = event.pageIndex;
