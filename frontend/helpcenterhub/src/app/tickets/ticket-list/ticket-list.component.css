@@ -1,34 +1,115 @@
+.mat-toolbar {
+  height: 79px; /* Define a altura da toolbar */
+}
+
+/* Estilos gerais */
+.toolbar-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1120px; /* Ajuste conforme necessário */
+}
+
+.search-field {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Reset básico para garantir consistência */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Estilos para a lista de tickets */
 .ticket-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px; 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Aumenta o espaçamento entre os cards */
+  justify-content: start;
+  padding: 20px;
 }
 
 .ticket-card {
-    background-color: #fff;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px; 
+  flex: 0 1 calc(25% - 20px);
+  background: #f8f9fa; /* Cinza muito claro */
+  border: 1px solid #e0e0e0; /* Bordas sutilmente definidas */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+  margin-bottom: 20px; /* Garante espaçamento entre linhas de cartões */
 }
 
-.search-bar {
-  margin-bottom: 20px;
+.ticket-list mat-card-title.cor-fonte,
+.ticket-list mat-card-subtitle.cor-fonte {
+  color: #1976D2 !important;
 }
 
-.search-bar input {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 100%; 
-  box-sizing: border-box; 
+.ticket-list .mat-card-actions {
+  border-top: 1px solid #e0e0e0 !important;
+  background-color: #f8f9fa !important;
 }
 
-.open { 
-    color: #FF9800; /* Warning color */
+
+/* Estilos para chips de status */
+.ticket-list mat-chip.chip-closed {
+  background-color: #F44336;
+  color: white;
 }
 
-.closed {
-    color: #4CAF50; /* Success color */
+.ticket-list mat-chip.chip-open {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Botões e ações */
+.mat-card-actions {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #eeeeee; /* Linha sutil para separar do conteúdo */
+}
+
+button[mat-button] {
+  background-color: #2196f3; /* Cor primária para os botões */
+  color: #ffffff;
+  border-radius: 20px; /* Botões mais arredondados */
+  padding: 8px 16px;
+  border: none;
+}
+
+button[mat-button]:hover {
+  background-color: #1976d2; /* Cor mais escura ao passar o mouse */
+}
+
+/* Ajustes responsivos para os cards */
+@media (max-width: 1200px) {
+  .ticket-card {
+    flex: 0 1 calc(33.333% - 20px);
+  }
+}
+
+@media (max-width: 992px) {
+  .ticket-card {
+    flex: 0 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .ticket-card {
+    flex: 0 1 100%;
+  }
+}
+
+/* Estilo para quando não houver tickets */
+#noTickets {
+  text-align: center;
+  color: #757575;
+  padding: 20px;
 }
