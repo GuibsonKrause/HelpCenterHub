@@ -1,29 +1,63 @@
 .mat-toolbar {
-  height: 79px; /* Define a altura da toolbar */
+  height: 79px;
+  /* Define a altura da toolbar */
 }
 
-/* Estilos gerais */
 .toolbar-search {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  /* Espaço entre os elementos da barra de ferramentas */
 }
+
 
 .search-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 1120px; /* Ajuste conforme necessário */
+  /* Seus estilos prévios para centralizar a barra de busca */
+  margin: 0 auto;
+  /* Mantém a barra de busca centralizada */
+  max-width: 1000px;
+  /* ou sua largura máxima desejada */
 }
 
-.search-field {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
+.new-ticket-btn-container {
+  margin-right: 16px;
+  /* Distância da borda direita */
+  position: absolute;
+  /* Posicionamento absoluto para fixar à direita */
+  right: 0;
+  /* Alinha à direita da área total do toolbar */
 }
+
+/* Adiciona estilo ao botão para alinhamento correto e estética */
+.new-ticket-btn {
+  margin-left: auto;
+  /* Empurra o botão para a direita */
+}
+
+/* Novos estilos para telas menores */
+
+@media (max-width: 600px) {
+  .toolbar-search {
+    justify-content: center; /* Centraliza os itens na barra de ferramentas */
+    flex-direction: column; /* Organiza os itens em coluna em vez de linha */
+  }
+
+  .search-container,
+  .new-ticket-btn-container {
+    width: auto; /* Permite que a barra de pesquisa e o botão ocupem a largura necessária */
+    margin: 8px 0; /* Adiciona uma margem vertical para separação em telas pequenas */
+  }
+
+  .new-ticket-btn-container {
+    order: -1; /* Coloca o botão acima da barra de pesquisa em telas pequenas */
+  }
+}
+
 
 /* Reset básico para garantir consistência */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -31,19 +65,23 @@
 .ticket-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Aumenta o espaçamento entre os cards */
+  gap: 20px;
+  /* Aumenta o espaçamento entre os cards */
   justify-content: start;
   padding: 20px;
 }
 
 .ticket-card {
   flex: 0 1 calc(25% - 20px);
-  background: #f8f9fa; /* Cinza muito claro */
-  border: 1px solid #e0e0e0; /* Bordas sutilmente definidas */
+  background: #f8f9fa;
+  /* Cinza muito claro */
+  border: 1px solid #e0e0e0;
+  /* Bordas sutilmente definidas */
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease-in-out;
-  margin-bottom: 20px; /* Garante espaçamento entre linhas de cartões */
+  margin-bottom: 20px;
+  /* Garante espaçamento entre linhas de cartões */
 }
 
 .ticket-list mat-card-title.cor-fonte,
@@ -73,19 +111,23 @@
   padding: 16px;
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid #eeeeee; /* Linha sutil para separar do conteúdo */
+  border-top: 1px solid #eeeeee;
+  /* Linha sutil para separar do conteúdo */
 }
 
 button[mat-button] {
-  background-color: #2196f3; /* Cor primária para os botões */
+  background-color: #2196f3;
+  /* Cor primária para os botões */
   color: #ffffff;
-  border-radius: 20px; /* Botões mais arredondados */
+  border-radius: 20px;
+  /* Botões mais arredondados */
   padding: 8px 16px;
   border: none;
 }
 
 button[mat-button]:hover {
-  background-color: #1976d2; /* Cor mais escura ao passar o mouse */
+  background-color: #1976d2;
+  /* Cor mais escura ao passar o mouse */
 }
 
 /* Ajustes responsivos para os cards */
@@ -117,20 +159,25 @@ button[mat-button]:hover {
 /* Estilização para o contêiner da paginação */
 .pagination {
   display: flex;
-  justify-content: center; /* Centraliza o paginador horizontalmente */
-  width: 100%; /* Faz o contêiner ocupar a largura inteira */
-  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+  justify-content: center;
+  /* Centraliza o paginador horizontalmente */
+  width: 100%;
+  /* Faz o contêiner ocupar a largura inteira */
+  box-sizing: border-box;
+  /* Garante que padding e border sejam incluídos na largura total */
 }
 
 .mat-paginator {
-  width: 100%; /* Faz o paginador ocupar a largura inteira do seu contêiner */
-  max-width: 100%; /* Garante que o paginador não ultrapasse a largura do contêiner */
+  width: 100%;
+  /* Faz o paginador ocupar a largura inteira do seu contêiner */
+  max-width: 100%;
+  /* Garante que o paginador não ultrapasse a largura do contêiner */
 }
 
 /* Estilização adicional para responsividade */
 @media (max-width: 768px) {
   .mat-paginator {
-    width: auto; /* Permite que o paginador se ajuste ao conteúdo em telas menores */
+    width: auto;
+    /* Permite que o paginador se ajuste ao conteúdo em telas menores */
   }
 }
-

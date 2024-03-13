@@ -69,6 +69,13 @@ export class TicketListComponent implements OnInit {
     this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
   }
 
+  createNewTicket() {
+    // Implemente a lógica para criar um novo ticket
+    // Por exemplo, navegar para uma página de formulário de novo ticket
+    // this.router.navigate(['/new-ticket']);
+  }
+  
+
   onPageChange(event: any) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
