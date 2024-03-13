@@ -113,3 +113,24 @@ button[mat-button]:hover {
   color: #757575;
   padding: 20px;
 }
+
+/* Estilização para o contêiner da paginação */
+.pagination {
+  display: flex;
+  justify-content: center; /* Centraliza o paginador horizontalmente */
+  width: 100%; /* Faz o contêiner ocupar a largura inteira */
+  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+}
+
+.mat-paginator {
+  width: 100%; /* Faz o paginador ocupar a largura inteira do seu contêiner */
+  max-width: 100%; /* Garante que o paginador não ultrapasse a largura do contêiner */
+}
+
+/* Estilização adicional para responsividade */
+@media (max-width: 768px) {
+  .mat-paginator {
+    width: auto; /* Permite que o paginador se ajuste ao conteúdo em telas menores */
+  }
+}
+

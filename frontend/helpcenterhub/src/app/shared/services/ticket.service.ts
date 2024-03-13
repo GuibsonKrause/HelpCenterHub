@@ -12,12 +12,15 @@ export class TicketService {
 
   constructor(private http: HttpClient) { }
 
-  getTicketsByUserId(userId: number, filter?: string): Observable<TicketsResponse> {
-    let params = new HttpParams();
+  getTicketsByUserIdAndPage(userId: number, filter?: string, page: number = 0, size: number = 10): Observable<TicketsResponse> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
     if (filter) {
       params = params.append('filter', filter);
     }
 
-    return this.http.get<TicketsResponse>(this.apiUrl + userId, { params });
+    return this.http.get<TicketsResponse>(`${this.apiUrl}${userId}`, { params });
   }
 }

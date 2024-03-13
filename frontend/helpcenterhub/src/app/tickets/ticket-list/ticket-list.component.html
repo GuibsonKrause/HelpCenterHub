@@ -26,6 +26,11 @@
     </mat-card-actions>
   </mat-card>
 </div>
+<div class="pagination">
+  <mat-paginator [length]="totalTickets" [pageSize]="12" [pageSizeOptions]="[8, 12, 24]" (page)="onPageChange($event)">
+  </mat-paginator>
+</div>
+
 
 <ng-template #noTickets>
   <p>You have no open tickets.</p>
