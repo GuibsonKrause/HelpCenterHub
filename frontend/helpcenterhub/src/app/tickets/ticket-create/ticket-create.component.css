@@ -19,3 +19,9 @@ mat-form-field {
 button[mat-dialog-close] {
   margin-right: 8px;
 }
+
+.rating-star {
+  color: gold; /* Ou qualquer outra cor desejada */
+  cursor: default; /* Remove o cursor de 'pointer' se for necessário */
+}
+

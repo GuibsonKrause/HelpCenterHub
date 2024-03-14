@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TicketCreateComponent } from '../ticket-create/ticket-create.component';
 import { TicketFeedbackComponent } from '../ticket-feedback/ticket-feedback.component';
+import { FeedbackService } from '../../shared/services/feedback.service';
 
 @Component({
   standalone: true,
@@ -47,7 +48,11 @@ export class TicketListComponent implements OnInit {
   pageSize = 12;
   currentPage = 0;
 
-  constructor(private route: ActivatedRoute, private ticketService: TicketService, private cd: ChangeDetectorRef, public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute,
+    private ticketService: TicketService,
+    private cd: ChangeDetectorRef,
+    public dialog: MatDialog,
+    private feedbackService: FeedbackService,) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -60,6 +65,7 @@ export class TicketListComponent implements OnInit {
       this.tickets = response.content;
       this.totalTickets = response.totalElements;
       this.cd.detectChanges();
+      this.checkFeedbackExistence();
     });
   }
 
@@ -98,9 +104,28 @@ export class TicketListComponent implements OnInit {
   }
 
   openFeedbackModal(ticket: Ticket) {
-    this.dialog.open(TicketFeedbackComponent, {
+    const dialogRef = this.dialog.open(TicketFeedbackComponent, {
       width: '400px',
       data: { ticketId: ticket.id, userId: this.userId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+    });
+  }
+
+  checkFeedbackExistence() {
+    this.tickets.forEach(ticket => {
+      if (ticket.status === 'CLOSED') {
+        this.feedbackService.getFeedback(ticket.id).subscribe({
+          next: (feedback) => {
+            ticket.hasFeedback = true;
+          },
+          error: (err) => {
+            ticket.hasFeedback = !!ticket.hasFeedback;
+          }
+        });
+      }
     });
   }
 

@@ -6,6 +6,7 @@ export interface Ticket {
   status: string;
   createdAt: string;
   closedAt: string | null;
+  hasFeedback?: boolean;
 }
 
 export interface Pageable {

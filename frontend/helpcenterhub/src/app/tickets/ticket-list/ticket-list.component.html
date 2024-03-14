@@ -31,7 +31,8 @@
     </mat-card-content>
     <mat-card-actions class="card-actions-end">
       <button mat-button (click)="openTicketDetails(ticket)">VIEW DETAILS</button>
-      <a *ngIf="ticket.status === 'CLOSED'" (click)="openFeedbackModal(ticket)" class="feedback-link">Provide Feedback</a>
+      <a *ngIf="ticket.status === 'CLOSED' && !ticket.hasFeedback" (click)="openFeedbackModal(ticket)"
+        class="feedback-link">Provide Feedback</a>
 
     </mat-card-actions>
   </mat-card>

@@ -13,8 +13,9 @@
 }
 
 .rating-star {
+  color: gold;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.1s;
 }
 
 .rating-star:hover {

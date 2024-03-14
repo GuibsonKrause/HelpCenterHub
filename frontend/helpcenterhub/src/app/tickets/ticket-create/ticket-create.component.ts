@@ -8,6 +8,8 @@ import { TicketService } from '../../shared/services/ticket.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FeedbackService } from '../../shared/services/feedback.service';
+import { TicketFeedback } from '../../shared/models/feedback.model';
 
 @Component({
   selector: 'app-ticket-create',
@@ -28,6 +30,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 })
 export class TicketCreateComponent implements OnInit {
   ticketForm: FormGroup;
+  public feedbackReceived: TicketFeedback | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -35,6 +38,7 @@ export class TicketCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<TicketCreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private snackBar: MatSnackBar,
+    private feedbackService: FeedbackService,
   ) {
     this.ticketForm = this.fb.group({
       subject: ['', Validators.required],
@@ -47,7 +51,20 @@ export class TicketCreateComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    if (this.data.hasFeedback && this.data.id) {
+      this.feedbackService.getFeedback(this.data.id).subscribe({
+        next: (feedback: TicketFeedback) => {
+          this.feedbackReceived = feedback;
+        },
+        error: (err) => {
+          console.error('Error retrieving feedback', err);
+          this.feedbackReceived = null;
+        }
+      });
+    }
+  }
+
 
   saveTicket(): void {
     if (this.ticketForm.valid) {

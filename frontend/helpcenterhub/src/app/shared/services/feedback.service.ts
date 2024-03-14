@@ -15,5 +15,9 @@ export class FeedbackService {
   submitFeedback(feedbackData: CreateTicketFeedback): Observable<TicketFeedback> {
     return this.http.post<TicketFeedback>(this.apiUrl, feedbackData);
   }
-  
+
+  getFeedback(ticketId: number): Observable<TicketFeedback> {
+    return this.http.get<TicketFeedback>(`${this.apiUrl}/${ticketId}`);
+  }
+
 }

@@ -39,6 +39,27 @@
     <mat-label>Closed At</mat-label>
     <input matInput [value]="data.closedAt | date: 'medium'" disabled>
   </mat-form-field>
+
+  <div *ngIf="feedbackReceived" class="rating">
+    <p>Rating</p>
+    <div class="rating-stars">
+      <mat-icon class="rating-star" *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+        {{feedbackReceived.rating > i ? 'star' : 'star_border'}}
+      </mat-icon>
+    </div>
+  </div>
+
+  <mat-form-field appearance="fill" class="full-width" *ngIf="feedbackReceived">
+    <mat-label>Feedback Comment</mat-label>
+    <textarea matInput [value]="feedbackReceived.comment" disabled></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width" *ngIf="feedbackReceived">
+    <mat-label>Feedback Provided At</mat-label>
+    <input matInput [value]="feedbackReceived.createdAt | date: 'medium'" disabled>
+  </mat-form-field>
+
+
 </mat-dialog-content>
 
 <mat-dialog-actions class="actions-end">
