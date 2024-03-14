@@ -148,10 +148,13 @@ button[mat-button]:hover {
   }
 }
 
+.close-ticket-btn {
+  margin-left: auto;
+}
 
 .feedback-link {
   margin-left: auto;
-  color: #007bff; /* Bootstrap's primary color, adjust if needed */
+  color: #007bff;
   cursor: pointer;
   text-decoration: underline;
 }
@@ -159,5 +162,5 @@ button[mat-button]:hover {
 .feedback-btn {
   margin-left: auto;
   color: white;
-  background-color: #007bff; /* Bootstrap's primary color, adjust if needed */
+  background-color: #007bff;
 }

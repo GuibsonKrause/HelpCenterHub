@@ -30,11 +30,18 @@
       </mat-chip>
     </mat-card-content>
     <mat-card-actions class="card-actions-end">
-      <button mat-button (click)="openTicketDetails(ticket)">VIEW DETAILS</button>
+      <button mat-button (click)="openTicketDetails(ticket)">
+        <mat-icon>visibility</mat-icon> View
+      </button>
       <a *ngIf="ticket.status === 'CLOSED' && !ticket.hasFeedback" (click)="openFeedbackModal(ticket)"
-        class="feedback-link">Provide Feedback</a>
-
+        class="feedback-link">
+        Provide Feedback<mat-icon>feedback</mat-icon>
+      </a>
+      <button mat-button *ngIf="ticket.status === 'OPEN'" (click)="closeTicket(ticket)" class="close-ticket-btn">
+        <mat-icon>lock</mat-icon> Close
+      </button>
     </mat-card-actions>
+
   </mat-card>
 </div>
 

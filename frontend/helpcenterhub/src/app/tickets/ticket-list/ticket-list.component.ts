@@ -129,4 +129,20 @@ export class TicketListComponent implements OnInit {
     });
   }
 
+  closeTicket(ticket: Ticket) {
+    if (confirm("Are you sure you want to close this ticket?")) {
+        this.ticketService.closeTicket(ticket.id).subscribe({
+            next: () => {
+                alert('Ticket has been successfully closed');
+                ticket.status = 'CLOSED';
+                this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+            },
+            error: err => {
+                console.error('Error closing ticket', err);
+                alert('There was an error closing the ticket');
+            }
+        });
+    }
+}
+
 }

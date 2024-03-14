@@ -15,7 +15,8 @@ export class TicketService {
   getTicketsByUserIdAndPage(userId: number, filter?: string, page: number = 0, size: number = 10): Observable<TicketsResponse> {
     let params = new HttpParams()
       .set('page', page.toString())
-      .set('size', size.toString());
+      .set('size', size.toString())
+      .set('sort', "id");;
 
     if (filter) {
       params = params.append('filter', filter);
@@ -26,4 +27,9 @@ export class TicketService {
   createTicket(ticketDTO: { userId: number; subject: string; description: string; }): Observable<Ticket> {
     return this.http.post<Ticket>(`${this.apiUrl}`, ticketDTO);
   }
+
+  closeTicket(ticketId: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${ticketId}/close`, null);
+  }
+
 }
