@@ -147,3 +147,17 @@ button[mat-button]:hover {
     width: auto;
   }
 }
+
+
+.feedback-link {
+  margin-left: auto;
+  color: #007bff; /* Bootstrap's primary color, adjust if needed */
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.feedback-btn {
+  margin-left: auto;
+  color: white;
+  background-color: #007bff; /* Bootstrap's primary color, adjust if needed */
+}

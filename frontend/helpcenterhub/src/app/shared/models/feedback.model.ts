@@ -9,3 +9,10 @@ export class TicketFeedback {
     ) {}
   }
   
+  export interface CreateTicketFeedback {
+    ticketId: number;
+    userId: number;
+    rating: number;
+    comment: string;
+  }
+  

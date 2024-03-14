@@ -17,6 +17,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TicketCreateComponent } from '../ticket-create/ticket-create.component';
+import { TicketFeedbackComponent } from '../ticket-feedback/ticket-feedback.component';
 
 @Component({
   standalone: true,
@@ -95,4 +96,12 @@ export class TicketListComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
   }
+
+  openFeedbackModal(ticket: Ticket) {
+    this.dialog.open(TicketFeedbackComponent, {
+      width: '400px',
+      data: { ticketId: ticket.id, userId: this.userId }
+    });
+  }
+
 }
