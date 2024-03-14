@@ -1,7 +1,13 @@
 package guibson.helpcenterhub.controller;
 
 import guibson.helpcenterhub.dto.TicketFeedbackDTO;
+import guibson.helpcenterhub.repository.TicketFeedbackRepository;
+import guibson.helpcenterhub.domain.entities.TicketFeedback;
 import guibson.helpcenterhub.domain.usecase.ProvideFeedback;
+import guibson.helpcenterhub.domain.usecase.RetrieveFeedback;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +17,37 @@ import org.springframework.web.bind.annotation.*;
 public class FeedbackController {
 
     private final ProvideFeedback provideFeedback;
+    private RetrieveFeedback retrieveFeedback;
+    private final TicketFeedbackRepository repository;
 
     @Autowired
-    public FeedbackController(ProvideFeedback provideFeedback) {
+    public FeedbackController(ProvideFeedback provideFeedback, RetrieveFeedback retrieveFeedback,
+            TicketFeedbackRepository repository) {
         this.provideFeedback = provideFeedback;
+        this.retrieveFeedback = retrieveFeedback;
+        this.repository = repository;
+    }
+
+    @GetMapping("/{ticketId}")
+    public ResponseEntity<TicketFeedback> getFeedback(@PathVariable Long ticketId) {
+        Optional<TicketFeedback> feedback = retrieveFeedback.execute(ticketId);
+        return feedback.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<TicketFeedbackDTO> provideFeedback(@RequestBody TicketFeedbackDTO feedbackDTO) {
-        TicketFeedbackDTO createdFeedback = provideFeedback.execute(feedbackDTO.getUserId(), feedbackDTO.getTicketId(), feedbackDTO.getRating(), feedbackDTO.getComment());
+    public ResponseEntity<?> provideFeedback(@RequestBody TicketFeedbackDTO feedbackDTO) {
+        Optional<TicketFeedback> existingFeedback = repository.findByTicketId(feedbackDTO.getTicketId());
+        if (existingFeedback.isPresent()) {
+            return ResponseEntity.badRequest().body("Feedback already provided for this ticket.");
+        }
+
+        TicketFeedbackDTO createdFeedback = provideFeedback.execute(
+                feedbackDTO.getUserId(),
+                feedbackDTO.getTicketId(),
+                feedbackDTO.getRating(),
+                feedbackDTO.getComment());
+                
         return ResponseEntity.ok(createdFeedback);
     }
 }

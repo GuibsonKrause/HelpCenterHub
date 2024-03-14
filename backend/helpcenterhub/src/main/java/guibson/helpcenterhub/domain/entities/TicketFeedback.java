@@ -12,7 +12,7 @@ public class TicketFeedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private Long ticketId;
 
     @Column(nullable = false)

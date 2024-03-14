@@ -24,7 +24,7 @@ CREATE TABLE tickets (
 
 CREATE TABLE ticket_feedbacks (
     id BIGSERIAL PRIMARY KEY,
-    ticket_id BIGINT NOT NULL,
+    ticket_id BIGINT UNIQUE NOT NULL,
     user_id BIGINT NOT NULL,
     rating INT NOT NULL,
     comment TEXT,
