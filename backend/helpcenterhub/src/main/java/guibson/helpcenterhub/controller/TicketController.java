@@ -80,8 +80,8 @@ public class TicketController {
         }
     }
 
-    // @RequestAttribute("userId") Long managerId,
     @PatchMapping("/{ticketId}/close")
+    // @RequestAttribute("userId") Long managerId,
     public ResponseEntity<?> closeTicket(@PathVariable Long ticketId) {
         Long managerId = (long) 1;
         if (managerId == null || ticketId == null) {
