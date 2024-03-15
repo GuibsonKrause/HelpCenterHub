@@ -56,7 +56,7 @@ public class TicketController {
     public ResponseEntity<TicketDTO> createTicket(@RequestBody TicketDTO ticketDTO) {
         TicketDTO createdTicket = createTicket.execute(ticketDTO.getUserId(), ticketDTO.getSubject(),
                 ticketDTO.getDescription());
-        sseService.sendToAll(createdTicket);
+        sseService.sendTicketToAll(createdTicket);
         return ResponseEntity.ok(createdTicket);
     }
 

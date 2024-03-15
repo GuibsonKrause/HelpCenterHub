@@ -2,6 +2,7 @@ package guibson.helpcenterhub.controller;
 
 import guibson.helpcenterhub.dto.TicketFeedbackDTO;
 import guibson.helpcenterhub.repository.TicketFeedbackRepository;
+import guibson.helpcenterhub.service.SseService;
 import guibson.helpcenterhub.domain.entities.TicketFeedback;
 import guibson.helpcenterhub.domain.usecase.ProvideFeedback;
 import guibson.helpcenterhub.domain.usecase.RetrieveFeedback;
@@ -19,12 +20,14 @@ public class FeedbackController {
     private final ProvideFeedback provideFeedback;
     private RetrieveFeedback retrieveFeedback;
     private final TicketFeedbackRepository repository;
+    private final SseService sseService;
 
     @Autowired
-    public FeedbackController(ProvideFeedback provideFeedback, RetrieveFeedback retrieveFeedback,
+    public FeedbackController(ProvideFeedback provideFeedback, RetrieveFeedback retrieveFeedback, SseService sseService,
             TicketFeedbackRepository repository) {
         this.provideFeedback = provideFeedback;
         this.retrieveFeedback = retrieveFeedback;
+        this.sseService = sseService;
         this.repository = repository;
     }
 
@@ -47,7 +50,9 @@ public class FeedbackController {
                 feedbackDTO.getTicketId(),
                 feedbackDTO.getRating(),
                 feedbackDTO.getComment());
-                
+
+        this.sseService.sendFeedbackToAll(createdFeedback);
+
         return ResponseEntity.ok(createdFeedback);
     }
 }

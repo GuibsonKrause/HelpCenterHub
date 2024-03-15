@@ -3,8 +3,13 @@ package guibson.helpcenterhub.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import guibson.helpcenterhub.dto.TicketDTO;
+import guibson.helpcenterhub.dto.TicketFeedbackDTO;
+
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,6 +37,20 @@ public class SseService {
                 emitter.completeWithError(e);
             }
         }
+    }
+
+    public void sendTicketToAll(TicketDTO ticket) {
+        Map<String, Object> event = new HashMap<>();
+        event.put("type", "TICKET");
+        event.put("data", ticket);
+        sendToAll(event);
+    }
+
+    public void sendFeedbackToAll(TicketFeedbackDTO feedback) {
+        Map<String, Object> event = new HashMap<>();
+        event.put("type", "FEEDBACK");
+        event.put("data", feedback);
+        sendToAll(event);
     }
 
 }
