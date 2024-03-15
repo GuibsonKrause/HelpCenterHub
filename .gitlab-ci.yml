@@ -24,12 +24,12 @@ before_script:
 build_backend:
   stage: build
   script:
-    - docker build --target build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub/
+    - docker build --target build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub
 
 build_frontend:
   stage: build
   script:
-    - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG ./frontend/helpcenterhub/
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG ./frontend/helpcenterhub
 
 test_backend:
   stage: test
@@ -44,7 +44,7 @@ test_frontend:
 package_backend:
   stage: package
   script:
-    - docker build -t $CI_REGISTRY_IMAGE/backend-package:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub/
+    - docker build -t $CI_REGISTRY_IMAGE/backend-package:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub
     - docker create --name temp_container $CI_REGISTRY_IMAGE/backend-package:$CI_COMMIT_REF_SLUG
     - docker cp temp_container:/app/app.jar ./app.jar
     - docker rm temp_container
