@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Ticket } from '../../shared/models/ticket.model';
 import { TicketService } from '../../shared/services/ticket.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { HeaderComponent } from '../../header-component/header-component.component';
+import { HeaderComponent } from '../../header-component/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
