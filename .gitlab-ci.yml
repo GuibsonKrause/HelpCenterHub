@@ -1,0 +1,57 @@
+image: docker:19.03.12
+
+services:
+  - docker:19.03.12-dind
+
+stages:
+  - build
+  - test
+  - package
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+    - node_modules/
+
+before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+build_backend:
+  stage: build
+  script:
+    - docker build --target build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub/
+
+build_frontend:
+  stage: build
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG ./frontend/helpcenterhub/
+
+test_backend:
+  stage: test
+  script:
+    - docker run --rm $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG mvn test
+
+test_frontend:
+  stage: test
+  script:
+    - docker run --rm -e CI=true $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG npm test
+
+package_backend:
+  stage: package
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/backend-package:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub/
+    - docker create --name temp_container $CI_REGISTRY_IMAGE/backend-package:$CI_COMMIT_REF_SLUG
+    - docker cp temp_container:/app/app.jar ./app.jar
+    - docker rm temp_container
+  artifacts:
+    paths:
+      - ./app.jar
+    expire_in: 1 week
+
+after_script:
+  - echo "Pipeline completed."
