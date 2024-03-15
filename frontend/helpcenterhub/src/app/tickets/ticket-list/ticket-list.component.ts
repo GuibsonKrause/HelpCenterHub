@@ -19,6 +19,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { TicketCreateComponent } from '../ticket-create/ticket-create.component';
 import { TicketFeedbackComponent } from '../ticket-feedback/ticket-feedback.component';
 import { FeedbackService } from '../../shared/services/feedback.service';
+import { SseService } from '../../shared/services/sseService';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Howl, Howler } from 'howler';
 
 @Component({
   standalone: true,
@@ -50,13 +53,35 @@ export class TicketListComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private ticketService: TicketService,
+    private sseService: SseService,
     private cd: ChangeDetectorRef,
     public dialog: MatDialog,
-    private feedbackService: FeedbackService,) { }
+    private feedbackService: FeedbackService,
+    private snackBar: MatSnackBar,) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+    });
+
+    this.sseService.getTicketUpdates().subscribe({
+      next: (newTicket) => {
+        const sound = new Howl({
+          src: ['assets/notification.mp3']
+        });
+        sound.play();
+
+        this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+
+        this.snackBar.open(`A new ticket has been opened: ${newTicket.subject}`, 'Close', {
+          duration: 30000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      }
     });
   }
 
@@ -82,7 +107,6 @@ export class TicketListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
       this.route.paramMap.subscribe(params => {
         this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
       });
