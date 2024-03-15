@@ -7,6 +7,7 @@ import guibson.helpcenterhub.domain.usecase.CloseTicket;
 import guibson.helpcenterhub.domain.usecase.CreateTicket;
 import guibson.helpcenterhub.dto.TicketDTO;
 import guibson.helpcenterhub.repository.UserRepository;
+import guibson.helpcenterhub.service.SseService;
 import guibson.helpcenterhub.domain.usecase.FilterTicketsByUserIdAndDescription;
 import guibson.helpcenterhub.domain.usecase.FilterTicketsByUserIdAndTicketId;
 import java.util.Optional;
@@ -36,21 +37,26 @@ public class TicketController {
     private final CloseTicket closeTicket;
     @Autowired
     private UserRepository userRepository;
+    private final SseService sseService;
 
     @Autowired
     public TicketController(CreateTicket createTicket,
             FilterTicketsByUserIdAndTicketId filterTicketsByUserIdAndTicketId,
-            FilterTicketsByUserIdAndDescription filterTicketsByUserIdAndDescription, CloseTicket closeTicket) {
+            FilterTicketsByUserIdAndDescription filterTicketsByUserIdAndDescription,
+            CloseTicket closeTicket, SseService sseService, UserRepository userRepository) {
         this.createTicket = createTicket;
         this.filterTicketsByUserIdAndTicketId = filterTicketsByUserIdAndTicketId;
         this.filterTicketsByUserIdAndDescription = filterTicketsByUserIdAndDescription;
         this.closeTicket = closeTicket;
+        this.sseService = sseService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
     public ResponseEntity<TicketDTO> createTicket(@RequestBody TicketDTO ticketDTO) {
         TicketDTO createdTicket = createTicket.execute(ticketDTO.getUserId(), ticketDTO.getSubject(),
                 ticketDTO.getDescription());
+        sseService.sendToAll(createdTicket);
         return ResponseEntity.ok(createdTicket);
     }
 
