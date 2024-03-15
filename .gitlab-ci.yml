@@ -44,9 +44,10 @@ test_backend:
     - sleep 10
     - docker pull $CI_REGISTRY_IMAGE/backend:latest
     - docker run --rm --network helpcenterhub_network -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/$POSTGRES_DB -e SPRING_DATASOURCE_USERNAME=$POSTGRES_USER -e SPRING_DATASOURCE_PASSWORD=$POSTGRES_PASSWORD $CI_REGISTRY_IMAGE/backend:latest mvn test
+  after_script:
     - docker stop postgresqldb
     - docker rm postgresqldb
-    - docker network rm helpcenterhub_network
+    - docker network rm helpcenterhub_network || true
 
 test_frontend:
   stage: test
