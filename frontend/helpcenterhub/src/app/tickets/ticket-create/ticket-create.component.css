@@ -1,0 +1,27 @@
+.actions-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+button[mat-dialog-close] {
+  margin-right: 8px;
+}
+
+.rating-star {
+  color: gold; /* Ou qualquer outra cor desejada */
+  cursor: default; /* Remove o cursor de 'pointer' se for necessário */
+}
+

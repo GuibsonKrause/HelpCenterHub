@@ -1,0 +1,36 @@
+mat-toolbar {
+  background-color: #1976d2;
+}
+
+.custom-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .custom-toolbar .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .custom-toolbar img {
+    width: 60px;
+    /* Tamanho menor da logo para telas menores */
+  }
+
+  .custom-toolbar .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .custom-toolbar .col-auto {
+    margin-top: 10px;
+  }
+}
