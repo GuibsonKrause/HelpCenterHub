@@ -24,7 +24,8 @@ before_script:
 build_backend:
   stage: build
   script:
-    - docker build --target build -t $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG ./backend/helpcenterhub
+    - docker build --target build -t $CI_REGISTRY_IMAGE/backend:latest ./backend/helpcenterhub
+    - docker push $CI_REGISTRY_IMAGE/backend:latest
 
 build_frontend:
   stage: build
@@ -34,7 +35,8 @@ build_frontend:
 test_backend:
   stage: test
   script:
-    - docker run --rm $CI_REGISTRY_IMAGE/backend:$CI_COMMIT_REF_SLUG mvn test
+    - docker pull $CI_REGISTRY_IMAGE/backend:latest
+    - docker run --rm $CI_REGISTRY_IMAGE/backend:latest mvn test
 
 test_frontend:
   stage: test
