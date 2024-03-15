@@ -5,7 +5,6 @@ services:
 
 stages:
   - build
-  - prepare_db
   - test
   - package
 
@@ -36,19 +35,18 @@ build_frontend:
   script:
     - docker build -t $CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_REF_SLUG ./frontend/helpcenterhub
 
-prepare_db:
-  stage: prepare_db
-  script:
-    - docker network create helpcenterhub_network
-    - docker run --name postgresqldb --network helpcenterhub_network -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_DB=$POSTGRES_DB -d postgres
-    - echo "Waiting for PostgreSQL to start..."
-    - sleep 10
-
 test_backend:
   stage: test
   script:
+    - docker network create helpcenterhub_network || true
+    - docker run --name postgresqldb --network helpcenterhub_network -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_DB=$POSTGRES_DB -d postgres
+    - echo "Waiting for PostgreSQL to start..."
+    - sleep 10
     - docker pull $CI_REGISTRY_IMAGE/backend:latest
     - docker run --rm --network helpcenterhub_network -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/$POSTGRES_DB -e SPRING_DATASOURCE_USERNAME=$POSTGRES_USER -e SPRING_DATASOURCE_PASSWORD=$POSTGRES_PASSWORD $CI_REGISTRY_IMAGE/backend:latest mvn test
+    - docker stop postgresqldb
+    - docker rm postgresqldb
+    - docker network rm helpcenterhub_network
 
 test_frontend:
   stage: test
