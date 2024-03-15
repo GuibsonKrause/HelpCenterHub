@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Ticket } from '../../shared/models/ticket.model';
+import { TicketFeedback } from '../../shared/models/feedback.model';
 import { TicketService } from '../../shared/services/ticket.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from '../../header-component/header.component';
@@ -65,19 +66,19 @@ export class TicketListComponent implements OnInit {
     });
 
     this.sseService.getTicketUpdates().subscribe({
-      next: (newTicket) => {
-        const sound = new Howl({
-          src: ['assets/notification.mp3']
-        });
-        sound.play();
+      next: (event) => {
+        switch (event.type) {
+          case 'TICKET':
+            this.handleNewTicket(event.data);
+            break;
+          case 'FEEDBACK':
+            this.handleNewFeedback(event.data);
+            break;
+          default:
+            console.log('Unknown event type');
+        }
 
         this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
-
-        this.snackBar.open(`A new ticket has been opened: ${newTicket.subject}`, 'Close', {
-          duration: 30000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
       },
       error: (error) => {
         console.log(error);
@@ -169,5 +170,32 @@ export class TicketListComponent implements OnInit {
       });
     }
   }
+
+  handleNewTicket(newTicket: Ticket) {
+    const sound = new Howl({
+      src: ['assets/notification.mp3']
+    });
+    sound.play();
+
+    this.snackBar.open(`A new ticket has been opened: ${newTicket.subject}`, 'Close', {
+      duration: 30000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
+
+  handleNewFeedback(newFeedback: TicketFeedback) {
+    const sound = new Howl({
+      src: ['assets/notificationFeedback.mp3']
+    });
+    sound.play();
+
+    this.snackBar.open(`New feedback received: ${newFeedback.comment}`, 'Close', {
+      duration: 30000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
+
 
 }

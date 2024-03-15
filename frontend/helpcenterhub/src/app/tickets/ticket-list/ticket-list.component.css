@@ -164,3 +164,8 @@ button[mat-button]:hover {
   color: white;
   background-color: #007bff;
 }
+
+.no-tickets {
+  text-align: center;
+  margin-top: 20px;
+}
