@@ -44,7 +44,7 @@ test_frontend:
   stage: test
   script:
     - docker pull $CI_REGISTRY_IMAGE/frontend:latest
-    - docker run --rm -e CI=true $CI_REGISTRY_IMAGE/frontend:latest npm test
+    - docker run --rm -e CI=true -e CHROME_BIN=/usr/bin/chromium-browser $CI_REGISTRY_IMAGE/frontend:latest ng test --watch=false --browsers=ChromeHeadlessCI
 
 package_backend:
   stage: package
