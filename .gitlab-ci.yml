@@ -44,8 +44,7 @@ test_frontend:
   stage: test
   script:
     - docker pull $CI_REGISTRY_IMAGE/frontend:latest
-    - docker run --rm -e CI=true $CI_REGISTRY_IMAGE/frontend:latest npm run test -- --watch=false --browsers=ChromeHeadlessCI
-
+    - docker run --rm -e CI=true $CI_REGISTRY_IMAGE/frontend:latest npm run test -- --no-watch --browsers=ChromeHeadlessCI
 
 package_backend:
   stage: package
