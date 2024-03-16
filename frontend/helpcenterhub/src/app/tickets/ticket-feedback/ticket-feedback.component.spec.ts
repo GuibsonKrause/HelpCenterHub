@@ -26,7 +26,18 @@ describe('TicketFeedbackComponent', () => {
     mockFeedbackService = jasmine.createSpyObj('FeedbackService', ['submitFeedback']);
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, NoopAnimationsModule, MatSnackBarModule, HttpClientTestingModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, TicketFeedbackComponent],
+      imports: [
+        FormsModule,
+        NoopAnimationsModule,
+        MatSnackBarModule,
+        HttpClientTestingModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        TicketFeedbackComponent  
+      ],
       providers: [
         { provide: FeedbackService, useValue: mockFeedbackService },
         { provide: MatSnackBar, useValue: mockSnackBar },
@@ -38,7 +49,8 @@ describe('TicketFeedbackComponent', () => {
     fixture = TestBed.createComponent(TicketFeedbackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+});
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -78,7 +90,7 @@ describe('TicketFeedbackComponent', () => {
   });
 
   it('should display error message on feedback submission failure', () => {
-    mockFeedbackService.submitFeedback.and.returnValue(throwError(() => new Error('Test Error')));
+    mockFeedbackService.submitFeedback.and.returnValue(throwError(new Error('Test Error')));
     component.submitFeedback();
 
     fixture.detectChanges();
