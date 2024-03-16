@@ -49,7 +49,7 @@ test_frontend:
     - cd frontend/helpcenterhub
     - npm install
   script:
-    - npm run test -- --no-watch --browsers=ChromeHeadless
+    - npm run test -- --no-watch --browsers=ChromeHeadlessCI
 
 package_backend:
   stage: package

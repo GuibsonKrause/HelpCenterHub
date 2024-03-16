@@ -13,7 +13,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/your-project-name'),
+      dir: require('path').join(__dirname, './coverage/helpcenterhub'), 
       subdir: '.',
       reporters: [
         { type: 'html' },
@@ -32,7 +32,7 @@ module.exports = function (config) {
       }
     },
     browsers: ['ChromeHeadlessCI'],
-    singleRun: false,
+    singleRun: true, 
     restartOnFileChange: true
   });
 };
