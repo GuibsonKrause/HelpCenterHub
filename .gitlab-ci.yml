@@ -42,9 +42,14 @@ test_backend:
 
 test_frontend:
   stage: test
+  image: node:20-alpine
+  before_script:
+    - apk update && apk add --no-cache chromium
+    - export CHROME_BIN=/usr/bin/chromium-browser
   script:
     - docker pull $CI_REGISTRY_IMAGE/frontend:latest
-    - docker run --rm -e CI=true $CI_REGISTRY_IMAGE/frontend:latest npm run test -- --no-watch --browsers=ChromeHeadlessCI
+    - docker run --rm -e CI=true -e CHROME_BIN=$CHROME_BIN $CI_REGISTRY_IMAGE/frontend:latest npm run test -- --no-watch --browsers=ChromeHeadless
+
 
 package_backend:
   stage: package
