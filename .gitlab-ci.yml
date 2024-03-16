@@ -46,6 +46,7 @@ test_frontend:
   before_script:
     - apk update && apk add --no-cache chromium
     - export CHROME_BIN=/usr/bin/chromium-browser
+    - cd frontend/helpcenterhub
     - npm install
   script:
     - npm run test -- --no-watch --browsers=ChromeHeadless
