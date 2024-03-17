@@ -1,39 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { environment } from '../../../../environment';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private authUrl = `${environment.apiUrl}/home`;
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.checkInitialLoginStatus();
+  }
+
+  getUserInfo(): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/userinfo`);
+  }
 
   loginWithGoogle(): void {
     window.location.href = this.authUrl;
   }
 
-  // Método para tratar a redireção de volta com o código de autorização
-  handleAuthRedirect(code: string): void {
-    // Endpoint do seu backend que troca o código por um token de acesso e obtém informações do usuário
-    const tokenExchangeUrl = `${environment.apiUrl}/auth/google/callback?code=${code}`;
-
-    this.http.get<any>(tokenExchangeUrl).pipe(
-      tap(res => {
-        // Armazenar o token JWT ou a sessão, conforme recebido do backend
-        localStorage.setItem('authToken', res.token);
-        this.router.navigate(['/home']); // Redirecionar para a página inicial após o login
-      }),
-      catchError(error => {
-        console.error('Error during token exchange:', error);
-        return of(null); // Manejar erros, talvez redirecionando para a página de login novamente
-      })
-    ).subscribe();
+  isLoggedIn() {
+    return this.loggedInSubject.asObservable();
   }
 
-  // Outros métodos úteis para seu serviço de autenticação, como logout, verificação de token, etc.
+  private checkInitialLoginStatus() {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      // Potentially validate the token against your backend
+      this.loggedInSubject.next(true);
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('authToken');
+    this.loggedInSubject.next(false);
+    this.router.navigate(['/']); // Redirect to a public route 
+  }
 }
