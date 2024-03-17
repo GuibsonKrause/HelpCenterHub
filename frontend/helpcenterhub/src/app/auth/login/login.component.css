@@ -1,0 +1,35 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #E0F7FA; /* Exemplo de cor de fundo */
+  
+    .login-card {
+      width: 100%;
+      max-width: 550px;
+  
+      mat-card-title,
+      mat-card-subtitle {
+        color: #333;
+      }
+  
+      button {
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  
+    mat-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+  }
+
+  img {
+    width: 22px;
+    height: 22px;
+  }
+  
+  
