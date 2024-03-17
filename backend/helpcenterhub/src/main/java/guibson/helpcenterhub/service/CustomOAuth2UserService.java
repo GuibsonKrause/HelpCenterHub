@@ -1,3 +1,4 @@
+// CustomOAuth2UserService.java
 package guibson.helpcenterhub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +7,10 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import guibson.helpcenterhub.domain.usecase.ProcessUserLogin;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -19,6 +24,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        return processUserLogin.execute(oAuth2User);
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletResponse response = attr.getResponse();
+        processUserLogin.execute(oAuth2User, response);
+        return oAuth2User; // Retorna o usuário sem modificar os seus atributos para incluir o token
     }
 }
