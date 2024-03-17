@@ -19,7 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private authService: AuthService, private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) { }
+  constructor(private authService: AuthService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer) { }
 
   ngOnInit() {
 
