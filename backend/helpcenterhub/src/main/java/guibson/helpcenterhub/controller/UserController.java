@@ -1,9 +1,9 @@
-package guibson.helpcenterhub.controller;
+/*package guibson.helpcenterhub.controller;
 
 import guibson.helpcenterhub.dto.LoginDTO;
 import guibson.helpcenterhub.dto.UserDTO;
 import guibson.helpcenterhub.domain.entities.User;
-import guibson.helpcenterhub.domain.usecase.AuthenticateUser;
+import guibson.helpcenterhub.domain.usecase.ProcessUserLogin;
 import guibson.helpcenterhub.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    private final AuthenticateUser authenticateUser;
+    private final ProcessUserLogin authenticateUser;
 
     @Autowired
-    public UserController(AuthenticateUser authenticateUser) {
+    public UserController(ProcessUserLogin authenticateUser) {
         this.authenticateUser = authenticateUser;
     }
 
@@ -27,3 +27,4 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 }
+*/

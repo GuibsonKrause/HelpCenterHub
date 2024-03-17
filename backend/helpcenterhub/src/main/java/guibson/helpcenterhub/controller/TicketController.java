@@ -87,9 +87,8 @@ public class TicketController {
     }
 
     @PatchMapping("/{ticketId}/close")
-    // @RequestAttribute("userId") Long managerId,
     public ResponseEntity<?> closeTicket(@PathVariable Long ticketId) {
-        Long managerId = (long) 1;
+        Long managerId = (long) 1; // Exemplo de ID de gerente, ajuste conforme necessário
         if (managerId == null || ticketId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -97,8 +96,8 @@ public class TicketController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getRoles().contains(Role.MANAGER)) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent() && optionalUser.get().getRoles().contains(Role.MANAGER)) {
             Optional<Ticket> closedTicket = closeTicket.execute(managerId, ticketId);
             return closedTicket.map(ticket -> ResponseEntity.ok().build())
                     .orElseGet(() -> ResponseEntity.notFound().build());
