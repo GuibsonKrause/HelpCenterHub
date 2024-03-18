@@ -34,10 +34,10 @@ CREATE TABLE ticket_feedbacks (
 
 -- Inserir usuários
 INSERT INTO users (name, email) VALUES ('Guibson Krause', 'guibson.krause@gmail.com');
-INSERT INTO users (name, email) VALUES ('user1', 'user1@example.com');
+INSERT INTO users (name, email) VALUES ('Lucas Craig', 'lucascraig891@gmail.com');
 INSERT INTO users (name, email) VALUES ('user2', 'user2@example.com');
 
 -- Inserir tipos de usuários
 INSERT INTO user_roles (user_id, role) VALUES (1, 'MANAGER');
-INSERT INTO user_roles (user_id, role) VALUES (2, 'USER');
+INSERT INTO user_roles (user_id, role) VALUES (2, 'MANAGER');
 INSERT INTO user_roles (user_id, role) VALUES (3, 'USER');
