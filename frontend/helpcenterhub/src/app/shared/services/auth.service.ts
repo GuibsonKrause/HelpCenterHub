@@ -39,11 +39,15 @@ export class AuthService {
   }
 
   logout(): void {
-    // Neste ponto, o logout precisa ser tratado no backend para remover o cookie
-    // Por exemplo, chamar um endpoint de logout que limpa o cookie
-    // e então, limpar o estado no frontend
-    this.loggedInSubject.next(false);
+    this.http.post(`${environment.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+      },
+      error: (error) => {
+
+      }
+    });
     this.router.navigate(['/']);
+    this.loggedInSubject.next(false);
   }
 
   get isLoggedIn$(): Observable<boolean> {
