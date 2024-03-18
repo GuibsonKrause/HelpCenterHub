@@ -27,6 +27,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletResponse response = attr.getResponse();
         processUserLogin.execute(oAuth2User, response);
-        return oAuth2User; // Retorna o usuário sem modificar os seus atributos para incluir o token
+        return oAuth2User;
     }
 }
