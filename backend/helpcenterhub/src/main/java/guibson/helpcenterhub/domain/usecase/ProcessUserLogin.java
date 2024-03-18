@@ -1,4 +1,3 @@
-// ProcessUserLogin.java
 package guibson.helpcenterhub.domain.usecase;
 
 import org.springframework.beans.factory.annotation.Autowired;
