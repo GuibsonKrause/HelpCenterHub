@@ -34,6 +34,25 @@ This project is configured to be easily run using Docker and Docker Compose. To 
 - For regular users: Authentication is performed via the standard Google OAuth2.0 process.
 - For manager-type users: It is necessary to directly register the same email used with Google into the database. This is required to authenticate and access manager-specific functionalities within the system.
 
+## CI/CD Pipeline Steps
+The CI/CD pipeline, defined in the `.gitlab-ci.yml` file, automates the process of running tests and preparing the application for deployment. The pipeline includes the following steps:
+
+1. **Dependency Installation:**
+   - Installs all the necessary dependencies for both the backend and frontend parts of the project.
+
+2. **Unit Testing:**
+   - Executes unit tests to validate the integrity and reliability of the code for both backend and frontend.
+   - Ensures that the new changes do not break existing functionalities.
+
+3. **Build:**
+   - Compiles the backend source code into an executable `api.jar` file.
+   - Prepares the frontend for deployment by running the build process.
+
+4. **Artifact Storage:**
+   - After a successful build and test run, the `api.jar` file is stored as a downloadable artifact within GitLab.
+   - The `api.jar` can be downloaded from the 'Jobs' page of the CI/CD pipeline in GitLab. Look for the latest successful build job with artifacts and download the `api.jar` from there.
+
+
 ## Real-Time Communication
 The backend uses SSE to communicate real-time updates to the frontend. This is especially useful for operators to follow tickets in real time.
 

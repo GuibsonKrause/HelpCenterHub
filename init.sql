@@ -1,8 +1,7 @@
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     email VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL,
-    password VARCHAR NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE user_roles (
@@ -34,9 +33,9 @@ CREATE TABLE ticket_feedbacks (
 );
 
 -- Inserir usuários
-INSERT INTO users (name, email, password) VALUES ('manager', 'manager@example.com', 'admin');
-INSERT INTO users (name, email, password) VALUES ('user1', 'user1@example.com', 'admin');
-INSERT INTO users (name, email, password) VALUES ('user2', 'user2@example.com', 'admin');
+INSERT INTO users (name, email) VALUES ('Guibson Krause', 'guibson.krause@gmail.com');
+INSERT INTO users (name, email) VALUES ('user1', 'user1@example.com');
+INSERT INTO users (name, email) VALUES ('user2', 'user2@example.com');
 
 -- Inserir tipos de usuários
 INSERT INTO user_roles (user_id, role) VALUES (1, 'MANAGER');
