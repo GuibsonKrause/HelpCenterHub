@@ -1,18 +1,23 @@
 package guibson.helpcenterhub.domain.usecase;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import guibson.helpcenterhub.domain.entities.TicketFeedback;
 import guibson.helpcenterhub.dto.TicketFeedbackDTO;
 import guibson.helpcenterhub.repository.TicketFeedbackRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
+@ExtendWith(MockitoExtension.class)
 public class ProvideFeedbackTest {
 
     @Mock
@@ -20,11 +25,6 @@ public class ProvideFeedbackTest {
 
     @InjectMocks
     private ProvideFeedback provideFeedback;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void whenProvideFeedback_thenFeedbackIsSaved() {

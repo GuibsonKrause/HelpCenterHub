@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@ActiveProfiles("test") // Ensure we're using application-test.properties configurations
+@ActiveProfiles("test") 
 public class TicketRepositoryIntegrationTest {
 
     @Autowired
