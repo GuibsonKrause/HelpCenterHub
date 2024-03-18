@@ -13,11 +13,11 @@ export class FeedbackService {
   constructor(private http: HttpClient) { }
 
   submitFeedback(feedbackData: CreateTicketFeedback): Observable<TicketFeedback> {
-    return this.http.post<TicketFeedback>(this.apiUrl, feedbackData);
+    return this.http.post<TicketFeedback>(this.apiUrl, feedbackData, { withCredentials: true });
   }
 
   getFeedback(ticketId: number): Observable<TicketFeedback> {
-    return this.http.get<TicketFeedback>(`${this.apiUrl}/${ticketId}`);
+    return this.http.get<TicketFeedback>(`${this.apiUrl}/${ticketId}`, { withCredentials: true });
   }
 
 }

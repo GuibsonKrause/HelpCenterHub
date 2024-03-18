@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../../environment';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private authUrl = `${environment.apiUrl}/home`;
+  // Inicializa como false assumindo que não sabemos se o usuário está logado até fazer uma verificação
   private loggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) {
@@ -16,28 +17,36 @@ export class AuthService {
   }
 
   getUserInfo(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/userinfo`);
+    return this.http.get(`${environment.apiUrl}/userinfo`, { withCredentials: true });
   }
 
   loginWithGoogle(): void {
     window.location.href = this.authUrl;
   }
 
-  isLoggedIn() {
-    return this.loggedInSubject.asObservable();
+  checkInitialLoginStatus(): void {
+    this.getUserInfo().subscribe({
+      next: (userInfo) => {
+        if (userInfo) {
+          this.loggedInSubject.next(true);
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao verificar status de login inicial', error);
+        this.loggedInSubject.next(false);
+      }
+    });
   }
 
-  private checkInitialLoginStatus() {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      // Potentially validate the token against your backend
-      this.loggedInSubject.next(true);
-    }
-  }
-
-  logout() {
-    localStorage.removeItem('authToken');
+  logout(): void {
+    // Neste ponto, o logout precisa ser tratado no backend para remover o cookie
+    // Por exemplo, chamar um endpoint de logout que limpa o cookie
+    // e então, limpar o estado no frontend
     this.loggedInSubject.next(false);
-    this.router.navigate(['/']); // Redirect to a public route 
+    this.router.navigate(['/']);
+  }
+
+  get isLoggedIn$(): Observable<boolean> {
+    return this.loggedInSubject.asObservable();
   }
 }

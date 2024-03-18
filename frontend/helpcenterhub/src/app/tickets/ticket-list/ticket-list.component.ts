@@ -23,6 +23,7 @@ import { FeedbackService } from '../../shared/services/feedback.service';
 import { SseService } from '../../shared/services/sseService';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Howl, Howler } from 'howler';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   standalone: true,
@@ -46,6 +47,7 @@ import { Howl, Howler } from 'howler';
 })
 export class TicketListComponent implements OnInit {
   tickets: Ticket[] = [];
+  userInfo: any;
   userId: number = 1;
   filter: string = '';
   totalTickets = 0;
@@ -54,6 +56,7 @@ export class TicketListComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private ticketService: TicketService,
+    private authService: AuthService,
     private sseService: SseService,
     private cd: ChangeDetectorRef,
     public dialog: MatDialog,
@@ -61,6 +64,15 @@ export class TicketListComponent implements OnInit {
     private snackBar: MatSnackBar,) { }
 
   ngOnInit() {
+    this.authService.getUserInfo().subscribe({
+      next: (userInfo) => {
+        this.userInfo = userInfo;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar informações do usuário', error);
+      }
+    });
+    
     this.route.paramMap.subscribe(params => {
       this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
     });

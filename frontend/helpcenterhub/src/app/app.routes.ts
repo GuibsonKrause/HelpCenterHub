@@ -7,7 +7,8 @@ import { AuthGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent }, // No AuthGuard needed
-  { path: 'ticketlist', component: TicketListComponent, canActivate: [AuthGuard] }, // Protected
+  { path: 'ticketlist', component: TicketListComponent}, // Protected
+  //{ path: 'ticketlist', component: TicketListComponent, canActivate: [AuthGuard] }, // Protected
   // ...other routes
 ];
 
