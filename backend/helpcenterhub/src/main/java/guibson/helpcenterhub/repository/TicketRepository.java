@@ -23,4 +23,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     Page<Ticket> findByUserIdAndDescriptionContaining(@Param("userId") Long userId,
             @Param("description") String description, Pageable pageable);
 
+    Optional<Ticket> findById(Long ticketId);
+
+    @Query("SELECT t FROM Ticket t WHERE LOWER(t.description) LIKE LOWER(CONCAT('%', :description, '%'))")
+    Page<Ticket> findByDescriptionContaining(@Param("description") String description, Pageable pageable);
+
 }

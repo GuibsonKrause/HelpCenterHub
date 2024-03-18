@@ -37,7 +37,7 @@
         class="feedback-link">
         Provide Feedback<mat-icon>feedback</mat-icon>
       </a>
-      <button mat-button *ngIf="ticket.status === 'OPEN'" (click)="closeTicket(ticket)" class="close-ticket-btn">
+      <button mat-button *ngIf="ticket.status === 'OPEN' && userInfo.roles.includes('MANAGER')" (click)="closeTicket(ticket)" class="close-ticket-btn">
         <mat-icon>lock</mat-icon> Close
       </button>
     </mat-card-actions>

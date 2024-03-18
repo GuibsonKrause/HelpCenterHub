@@ -1,7 +1,4 @@
 package guibson.helpcenterhub.dto;
-
-import java.time.LocalDateTime;
-
 public class TicketFeedbackDTO {
     private Long ticketId;
     private Long userId;

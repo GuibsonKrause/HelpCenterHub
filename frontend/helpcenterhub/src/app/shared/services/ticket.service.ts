@@ -21,15 +21,15 @@ export class TicketService {
     if (filter) {
       params = params.append('filter', filter);
     }
-    return this.http.get<TicketsResponse>(`${this.apiUrl + "/user/"}${userId}`, { params });
+    return this.http.get<TicketsResponse>(`${this.apiUrl + "/user/"}${userId}`, { params, withCredentials: true });
   }
 
   createTicket(ticketDTO: { userId: number; subject: string; description: string; }): Observable<Ticket> {
-    return this.http.post<Ticket>(`${this.apiUrl}`, ticketDTO);
+    return this.http.post<Ticket>(`${this.apiUrl}`, ticketDTO, { withCredentials: true });
   }
 
   closeTicket(ticketId: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${ticketId}/close`, null);
+    return this.http.patch(`${this.apiUrl}/${ticketId}/close`, null, { withCredentials: true });
   }
 
 }
