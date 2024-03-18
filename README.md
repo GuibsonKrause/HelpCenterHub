@@ -17,6 +17,9 @@ The Help Center Hub is a help desk developed as part of a software development c
 - **Frontend:** In the `frontend` directory, built with Angular 17 in standalone mode.
 - **Database:** Uses PostgreSQL 16, with tables being automatically created when the service is started through Docker.
 
+## DevOps Environment & Kubernetes
+The `diagrama.png` file illustrates how the Help Center Hub platform functions within a DevOps environment utilizing Kubernetes. It shows the structure of the systems and how they are deployed and managed to ensure scalability and reliability.
+
 ## Running the Project with Docker
 This project is configured to be easily run using Docker and Docker Compose. To do this, make sure you have Docker and Docker Compose installed on your system.
 
@@ -28,7 +31,8 @@ This project is configured to be easily run using Docker and Docker Compose. To 
 5. The API documentation can be accessed via Swagger at `http://localhost:8080/swagger-ui.html`.
 
 ## Authentication
-Authentication is performed via OAuth2.0 with Google. Make sure to correctly configure the OAuth2.0 credentials in the Spring Security configuration file.
+- For regular users: Authentication is performed via the standard Google OAuth2.0 process.
+- For manager-type users: It is necessary to directly register the same email used with Google into the database. This is required to authenticate and access manager-specific functionalities within the system.
 
 ## Real-Time Communication
 The backend uses SSE to communicate real-time updates to the frontend. This is especially useful for operators to follow tickets in real time.
