@@ -6,8 +6,9 @@
         Help Center Hub
       </div>
       <div class="col-6 col-md-4 text-end">
-        <button mat-button (click)="redirectToTickets()">Home</button>
-        <button mat-button (click)="onLogout()">Logout</button>
+        <p *ngIf="userName">Welcome, {{ userName }}!</p>
+        <button mat-button (click)="redirectToTickets()">HOME</button>
+        <button mat-button color="secondary" (click)="onLogout()">LOGOUT</button>
       </div>
     </div>
   </div>

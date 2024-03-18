@@ -24,6 +24,7 @@ import { SseService } from '../../shared/services/sseService';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Howl, Howler } from 'howler';
 import { AuthService } from '../../shared/services/auth.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -48,7 +49,7 @@ import { AuthService } from '../../shared/services/auth.service';
 export class TicketListComponent implements OnInit {
   tickets: Ticket[] = [];
   userInfo: any;
-  userId: number = 1;
+  userId: number = 0;
   filter: string = '';
   totalTickets = 0;
   pageSize = 12;
@@ -64,36 +65,36 @@ export class TicketListComponent implements OnInit {
     private snackBar: MatSnackBar,) { }
 
   ngOnInit() {
-    this.authService.getUserInfo().subscribe({
-      next: (userInfo) => {
+    this.authService.getUserInfo().pipe(
+      switchMap((userInfo) => {
         this.userInfo = userInfo;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar informações do usuário', error);
-      }
-    });
-    
-    this.route.paramMap.subscribe(params => {
+        this.userId = this.userInfo.id;
+        return this.route.paramMap;
+      })
+    ).subscribe(params => {
       this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
-    });
 
-    this.sseService.getTicketUpdates().subscribe({
-      next: (event) => {
-        switch (event.type) {
-          case 'TICKET':
-            this.handleNewTicket(event.data);
-            break;
-          case 'FEEDBACK':
-            this.handleNewFeedback(event.data);
-            break;
-          default:
-            console.log('Unknown event type');
-        }
+      if (this.userInfo.roles.includes('MANAGER')) {
+        this.sseService.getTicketUpdates().subscribe({
+          next: (event) => {
+            switch (event.type) {
+              case 'TICKET':
+                this.handleNewTicket(event.data);
+                break;
+              case 'FEEDBACK':
+                this.handleNewFeedback(event.data);
+                break;
+              default:
+                console.log('Unknown event type');
+            }
 
-        this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
-      },
-      error: (error) => {
-        console.log(error);
+            this.loadTickets(this.userId, this.filter, this.currentPage, this.pageSize);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+        this.cd.detectChanges();
       }
     });
   }
@@ -116,7 +117,7 @@ export class TicketListComponent implements OnInit {
   openNewTicketModal(): void {
     const dialogRef = this.dialog.open(TicketCreateComponent, {
       width: '1000px',
-      data: { userId: this.userId }
+      data: { userId: this.userInfo.id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -190,7 +191,7 @@ export class TicketListComponent implements OnInit {
     sound.play();
 
     this.snackBar.open(`A new ticket has been opened: ${newTicket.subject}`, 'Close', {
-      duration: 30000,
+      duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
@@ -203,7 +204,7 @@ export class TicketListComponent implements OnInit {
     sound.play();
 
     this.snackBar.open(`New feedback received: ${newFeedback.comment}`, 'Close', {
-      duration: 30000,
+      duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
