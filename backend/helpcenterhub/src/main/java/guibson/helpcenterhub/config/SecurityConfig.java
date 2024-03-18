@@ -6,14 +6,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import guibson.helpcenterhub.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import java.util.Arrays;
 
@@ -39,7 +44,12 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService))
-                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("http://localhost:4200/ticketlist")));
+                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("http://localhost:4200/ticketlist")))
+                .logout(logout -> logout
+                        .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response,
+                                Authentication authentication) -> {
+                            response.sendRedirect("http://localhost:4200/");
+                        }));
 
         return http.build();
     }
